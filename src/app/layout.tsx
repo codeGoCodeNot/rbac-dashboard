@@ -49,7 +49,9 @@ export default function RootLayout({
           <SidebarInset>
             <AppSidebar />
             <Header />
-            {children}
+            <main className="pt-16 p-6 min-h-screen flex flex-col flex-1">
+              {children}
+            </main>
           </SidebarInset>
         </SidebarProvider>
       </body>
