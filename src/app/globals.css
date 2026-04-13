@@ -46,6 +46,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-slide-from-top: slide-from-top 0.5s ease-out forwards;
+  --animate-fade-from-top: fade-from-top 0.5s ease-out;
+  --animate-sidebar-from-left: sidebar-from-left 0.5s ease-out;
 }
 
 :root {
@@ -118,6 +121,11 @@
 }
 
 @layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -126,5 +134,39 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@keyframes slide-from-top {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-from-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sidebar-from-left {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
