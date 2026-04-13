@@ -36,7 +36,6 @@ const AvatarDropdown = () => {
           <DropdownMenuItem>Profile</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-
         <DropdownMenuGroup>
           <DropdownMenuItem>Log out</DropdownMenuItem>
         </DropdownMenuGroup>
