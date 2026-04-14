@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/utils/password";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -21,4 +22,5 @@ export const auth = betterAuth({
       verify: verifyPassword,
     },
   },
+  plugins: [nextCookies()],
 });

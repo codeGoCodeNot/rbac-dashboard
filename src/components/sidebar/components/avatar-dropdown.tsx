@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,38 +8,70 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut } from "@/lib/auth-client";
+import { signInPage } from "@/path";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const AvatarDropdown = () => {
+type AvatarDropdownProps = {
+  user?: {
+    name: string;
+    email: string;
+    image?: string | null | undefined;
+  } | null;
+};
+
+const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    const { error } = await signOut();
+    setLoading(false);
+
+    if (error) {
+      return toast.error("Failed to log out. Please try again.");
+    } else {
+      toast.success("Logged out successfully.");
+      router.push(signInPage());
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="rounded-full">
           <Avatar>
             <AvatarImage
-              src="https://github.com/shadcn.png"
-              alt="@shadcn"
+              src={user?.image ?? undefined}
+              alt={user?.name ?? "User Avatar"}
               className="grayscale"
             />
-            <AvatarFallback>JB</AvatarFallback>
+            <AvatarFallback>
+              {user?.name?.charAt(0).toUpperCase() ?? "U"}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="start">
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            {user?.name.split(" ")[0] ?? "User"}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Log out</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout} disabled={loading}>
+            {loading ? "Logging out..." : "Log out"}
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

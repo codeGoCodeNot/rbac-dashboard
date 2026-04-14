@@ -1,3 +1,6 @@
+import { nextCookies } from "better-auth/next-js";
 import { createAuthClient } from "better-auth/react";
 
-export const { signIn, signOut, signUp, useSession } = createAuthClient();
+export const { signIn, signOut, signUp, useSession } = createAuthClient({
+  plugins: [nextCookies()],
+});
