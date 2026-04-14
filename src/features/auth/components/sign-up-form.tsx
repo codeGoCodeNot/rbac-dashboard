@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionState } from "@/components/utils/to-action-state";
 import { useActionState } from "react";
-import { FaGoogle } from "react-icons/fa";
 import signUp from "../actions/sign-up";
+import GoogleSignIn from "./google-sign-in";
 import PasswordInput from "./password-input";
 
 const SignUpform = () => {
@@ -37,6 +37,21 @@ const SignUpform = () => {
       <CardContent>
         <form action={action}>
           <div className="flex flex-col gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                name="name"
+                placeholder="John Doe"
+                defaultValue={actionState.payload?.get("name") as string}
+                required
+              />
+              {actionState.fieldErrors.name && (
+                <p className="text-sm text-red-500">
+                  {actionState.fieldErrors.name}
+                </p>
+              )}
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -90,14 +105,7 @@ const SignUpform = () => {
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? "Creating account..." : "Create Account"}
               </Button>
-              <Button
-                variant="outline"
-                className="w-full flex gap-x-2 items-center"
-                type="button"
-              >
-                <span>Create Account with Google</span>
-                <FaGoogle className="text-[#4285f4]" />
-              </Button>
+              <GoogleSignIn />
             </div>
           </div>
         </form>

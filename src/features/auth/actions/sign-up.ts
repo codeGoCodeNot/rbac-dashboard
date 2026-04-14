@@ -9,9 +9,12 @@ import z from "zod";
 import { passwordSchema } from "../utils/password-schema";
 import { redirect } from "next/navigation";
 import { homePage } from "@/path";
+import { setCookieByKey } from "@/actions/cookies";
+import { auth } from "@/lib/auth";
 
 const signUpSchema = z
   .object({
+    name: z.string().min(1, { message: "Name is required" }),
     email: z.string().email().min(1, { message: "Email is required" }),
     password: passwordSchema,
     confirmPassword: z
@@ -25,21 +28,22 @@ const signUpSchema = z
 
 const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
-    const { email, password, confirmPassword } = signUpSchema.parse(
+    const { name, email, password, confirmPassword } = signUpSchema.parse(
       Object.fromEntries(formData.entries()),
     );
-    console.log(
-      "Email:",
-      email,
-      "Password:",
-      password,
-      "Confirm Password:",
-      confirmPassword,
-    );
+
+    await auth.api.signUpEmail({
+      body: {
+        name,
+        email,
+        password,
+      },
+    });
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
+  await setCookieByKey("toast", "Sign up successful!");
   redirect(homePage());
 };
 

@@ -9,6 +9,8 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/components/sidebar";
+import { Toaster } from "sonner";
+import RedirectToast from "@/components/redirect-toast";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -54,6 +56,8 @@ export default function RootLayout({
             </main>
           </SidebarInset>
         </SidebarProvider>
+        <RedirectToast />
+        <Toaster expand />
       </body>
     </html>
   );
