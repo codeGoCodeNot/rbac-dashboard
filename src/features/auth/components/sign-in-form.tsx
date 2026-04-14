@@ -15,13 +15,16 @@ import { ActionState } from "@/components/utils/to-action-state";
 import GoogleSignIn from "@/features/auth/components/google-sign-in";
 import { forgotPasswordPage, signUpPage } from "@/path";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import signIn from "../actions/sign-in";
 import PasswordInput from "./password-input";
-import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
-  const [actionState, action] = useActionState<ActionState, FormData>(signIn, {
+  const [actionState, action, isPending] = useActionState<
+    ActionState,
+    FormData
+  >(signIn, {
     message: "",
     fieldErrors: {} as Record<string, string[]>,
     timestamp: Date.now(),
@@ -64,6 +67,7 @@ const SignInForm = () => {
                 <p className="text-sm text-red-500">{actionState.message}</p>
               )}
             </div>
+
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
@@ -87,8 +91,8 @@ const SignInForm = () => {
               </Link>
             </div>
             <div className="flex-col flex gap-y-1">
-              <Button type="submit" className="w-full">
-                Log In
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? "Signing In..." : "Sign In"}
               </Button>
 
               <GoogleSignIn title="Sign In with Google" />

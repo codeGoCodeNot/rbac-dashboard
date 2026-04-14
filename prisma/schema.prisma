@@ -1,7 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
   provider = "prisma-client"
@@ -10,6 +6,32 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model SavingsGoal {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  targetAmount Int
+  currentAmount Int @default(0)
+  deadline DateTime?
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contributions Contribution[]
+
+  @@index([userId])
+}
+
+model Contribution {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  amount Int
+ note String?
+  savingsGoalId String
+  savingsGoal SavingsGoal @relation(fields: [savingsGoalId], references: [id], onDelete: Cascade)
+
+  @@index([savingsGoalId])
 }
 
 model User {
@@ -22,6 +44,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  savingsGoals   SavingsGoal[]
 
   @@unique([email])
   @@map("user")

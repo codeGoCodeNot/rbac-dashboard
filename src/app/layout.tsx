@@ -51,7 +51,7 @@ export default function RootLayout({
           <SidebarInset>
             <AppSidebar />
             <Header />
-            <main className="pt-16 p-6 min-h-screen flex flex-col flex-1">
+            <main className="py-35 px-10 min-h-screen flex flex-col flex-1 overflow-y-auto">
               {children}
             </main>
           </SidebarInset>

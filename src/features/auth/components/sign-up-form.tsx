@@ -12,12 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionState } from "@/components/utils/to-action-state";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import signUp from "../actions/sign-up";
 import GoogleSignIn from "./google-sign-in";
 import PasswordInput from "./password-input";
 import Link from "next/link";
 import { signInPage } from "@/path";
+import PasswordStrengthMeter from "@/components/password-strength-meter";
 
 const SignUpform = () => {
   const [actionState, action, isPending] = useActionState<
@@ -28,6 +29,8 @@ const SignUpform = () => {
     fieldErrors: {} as Record<string, string[]>,
     timestamp: Date.now(),
   });
+
+  const [password, setPassword] = useState("");
 
   return (
     <Card className="w-full max-w-sm">
@@ -84,12 +87,14 @@ const SignUpform = () => {
                 name="password"
                 defaultValue={actionState.payload?.get("password") as string}
                 required
+                onChange={(e) => setPassword(e.target.value)}
               />
               {actionState.fieldErrors.password && (
                 <p className="text-sm text-red-500">
                   {actionState.fieldErrors.password}
                 </p>
               )}
+              <PasswordStrengthMeter password={password} />
             </div>
 
             <div className="grid gap-2">
