@@ -13,16 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
 import { signInPage } from "@/path";
+import { User } from "better-auth/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 type AvatarDropdownProps = {
-  user?: {
-    name: string;
-    email: string;
-    image?: string | null | undefined;
-  } | null;
+  user: User;
 };
 
 const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
@@ -62,7 +59,7 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem>
-            {user?.name.split(" ")[0] ?? "User"}
+            {user?.name?.split(" ")[0] ?? "User"}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>

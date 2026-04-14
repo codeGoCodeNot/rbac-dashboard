@@ -1,9 +1,15 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
 import { homePage } from "@/path";
 import { FaGoogle } from "react-icons/fa";
 
-const GoogleSignIn = () => {
+type GoogleSignInProps = {
+  title: string;
+};
+
+const GoogleSignIn = ({ title }: GoogleSignInProps) => {
   const handleSignIn = async () => {
     await signIn.social({
       provider: "google",
@@ -18,7 +24,7 @@ const GoogleSignIn = () => {
       type="button"
       onClick={handleSignIn}
     >
-      <span>Create Account with Google</span>
+      <span>{title}</span>
       <FaGoogle className="text-[#4285f4]" />
     </Button>
   );

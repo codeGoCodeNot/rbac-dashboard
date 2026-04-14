@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -15,6 +16,8 @@ import { useActionState } from "react";
 import signUp from "../actions/sign-up";
 import GoogleSignIn from "./google-sign-in";
 import PasswordInput from "./password-input";
+import Link from "next/link";
+import { signInPage } from "@/path";
 
 const SignUpform = () => {
   const [actionState, action, isPending] = useActionState<
@@ -33,6 +36,11 @@ const SignUpform = () => {
         <CardDescription>
           Enter your email below to create your account
         </CardDescription>
+        <CardAction>
+          <Button variant="link" asChild>
+            <Link href={signInPage()}>Sign In</Link>
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent>
         <form action={action}>
@@ -105,7 +113,7 @@ const SignUpform = () => {
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? "Creating account..." : "Create Account"}
               </Button>
-              <GoogleSignIn />
+              <GoogleSignIn title="Create Account with Google" />
             </div>
           </div>
         </form>

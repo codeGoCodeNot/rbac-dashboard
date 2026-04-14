@@ -1,5 +1,11 @@
+import SignInForm from "@/features/auth/components/sign-in-form";
+
 const SignInPage = () => {
-  return <h1>Under Construction wait for a moment</h1>;
+  return (
+    <div className="flex-1 flex flex-col items-center justify-center">
+      <SignInForm />
+    </div>
+  );
 };
 
 export default SignInPage;
