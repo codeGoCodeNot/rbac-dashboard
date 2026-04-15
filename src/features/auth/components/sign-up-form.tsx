@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ActionState } from "@/components/utils/to-action-state";
+import {
+  ActionState,
+  EMPTY_ACTION_STATE,
+} from "@/components/utils/to-action-state";
 import { useActionState, useState } from "react";
 import signUp from "../actions/sign-up";
 import GoogleSignIn from "./google-sign-in";
@@ -24,11 +27,7 @@ const SignUpform = () => {
   const [actionState, action, isPending] = useActionState<
     ActionState,
     FormData
-  >(signUp, {
-    message: "",
-    fieldErrors: {} as Record<string, string[]>,
-    timestamp: Date.now(),
-  });
+  >(signUp, EMPTY_ACTION_STATE);
 
   const [password, setPassword] = useState("");
 
@@ -57,7 +56,7 @@ const SignUpform = () => {
                 defaultValue={actionState.payload?.get("name") as string}
                 required
               />
-              {actionState.fieldErrors.name && (
+              {actionState?.fieldErrors?.name && (
                 <p className="text-sm text-red-500">
                   {actionState.fieldErrors.name}
                 </p>
@@ -73,7 +72,7 @@ const SignUpform = () => {
                 defaultValue={actionState.payload?.get("email") as string}
                 required
               />
-              {actionState.fieldErrors.email && (
+              {actionState?.fieldErrors?.email && (
                 <p className="text-sm text-red-500">
                   {actionState.fieldErrors.email}
                 </p>
@@ -89,7 +88,7 @@ const SignUpform = () => {
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {actionState.fieldErrors.password && (
+              {actionState?.fieldErrors?.password && (
                 <p className="text-sm text-red-500">
                   {actionState.fieldErrors.password}
                 </p>
@@ -107,7 +106,7 @@ const SignUpform = () => {
                 }
                 required
               />
-              {actionState.fieldErrors.confirmPassword && (
+              {actionState?.fieldErrors?.confirmPassword && (
                 <p className="text-sm text-red-500">
                   {actionState.fieldErrors.confirmPassword}
                 </p>

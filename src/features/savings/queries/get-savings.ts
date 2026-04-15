@@ -1,12 +1,9 @@
-import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import prisma from "@/lib/prisma";
 
-const getSavings = async () => {
-  const user = await getAuthOrRedirect();
-
+const getSavings = async (userId: string) => {
   return await prisma.savingsGoal.findMany({
     where: {
-      userId: user.id,
+      userId,
     },
     orderBy: {
       createdAt: "desc",

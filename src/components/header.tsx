@@ -29,7 +29,7 @@ const Header = () => {
     <header className="min-h-[53px] border-b border-gray-300 px-5 flex items-center justify-between animate-fade-from-top fixed top-0 z-20 w-full bg-background">
       <div>{user && <AvatarDropdown user={user} />}</div>
       <Button variant="ghost" className="absolute left-1/2 -translate-x-1/2">
-        <span className="flex items-center gap-x-1 text-lg">
+        <span className="flex items-center gap-x-1 text-lg ">
           <LucideSave />
           Savings
         </span>

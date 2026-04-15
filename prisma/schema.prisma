@@ -12,15 +12,23 @@ model SavingsGoal {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name String
+  goalName GoalName
   targetAmount Int
   currentAmount Int @default(0)
-  deadline DateTime?
+  deadline String
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   contributions Contribution[]
 
   @@index([userId])
+}
+
+enum GoalName {
+  EMERGENCY_FUND
+  VACATION
+  NEW_GADGET
+  HOME_DOWN_PAYMENT
+  OTHER
 }
 
 model Contribution {

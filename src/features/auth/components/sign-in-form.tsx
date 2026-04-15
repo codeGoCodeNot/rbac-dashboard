@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ActionState } from "@/components/utils/to-action-state";
+import {
+  ActionState,
+  EMPTY_ACTION_STATE,
+} from "@/components/utils/to-action-state";
 import GoogleSignIn from "@/features/auth/components/google-sign-in";
 import { forgotPasswordPage, signUpPage } from "@/path";
 import Link from "next/link";
@@ -24,11 +27,7 @@ const SignInForm = () => {
   const [actionState, action, isPending] = useActionState<
     ActionState,
     FormData
-  >(signIn, {
-    message: "",
-    fieldErrors: {} as Record<string, string[]>,
-    timestamp: Date.now(),
-  });
+  >(signIn, EMPTY_ACTION_STATE);
 
   const router = useRouter();
 

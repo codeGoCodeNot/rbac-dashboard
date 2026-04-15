@@ -5,7 +5,13 @@ export type ActionState = {
   message: string;
   payload?: FormData;
   timestamp: number;
-  fieldErrors: Record<string, string[]>;
+  fieldErrors: Record<string, string[]> | undefined;
+};
+
+export const EMPTY_ACTION_STATE: ActionState = {
+  message: "",
+  fieldErrors: {},
+  timestamp: Date.now(),
 };
 
 export const fromErrorToActionState = (

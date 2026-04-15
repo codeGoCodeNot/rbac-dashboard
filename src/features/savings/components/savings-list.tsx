@@ -1,3 +1,4 @@
+import Placeholder from "@/components/placeholder";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -7,46 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { User } from "better-auth/types";
+import { GOAL_NAME_LABELS } from "../constants";
+import getSavings from "../queries/get-savings";
+import AddFundsDialog from "./add-funds-dialog";
+import { toCurrency } from "@/utils/currency";
 
 type SavingsListProps = {
-  user: User | null;
+  user: User | null | undefined;
 };
 
-const SavingsList = ({ user }: SavingsListProps) => {
-  const savings = [
-    {
-      id: "1",
-      name: "Juan dela Cruz",
-      goalName: "Emergency Fund",
-      targetAmount: 50000,
-      currentAmount: 10000,
-      deadline: "2026-12-31",
-    },
-    {
-      id: "2",
-      name: "Maria Santos",
-      goalName: "Vacation",
-      targetAmount: 20000,
-      currentAmount: 5000,
-      deadline: "2026-08-01",
-    },
-    {
-      id: "3",
-      name: "Jose Reyes",
-      goalName: "New Laptop",
-      targetAmount: 80000,
-      currentAmount: 0,
-      deadline: null,
-    },
-    {
-      id: "4",
-      name: "Ana Gomez",
-      goalName: "Wedding",
-      targetAmount: 200000,
-      currentAmount: 50000,
-      deadline: "2027-02-14",
-    },
-  ];
+const SavingsList = async ({ user }: SavingsListProps) => {
+  if (!user) return <Placeholder label="No Savings found" />;
+
+  const savings = await getSavings(user.id);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -69,10 +43,25 @@ const SavingsList = ({ user }: SavingsListProps) => {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle className="text-base">{saving.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    {saving.goalName}
-                  </p>
+                  <CardTitle className="text-base">
+                    {GOAL_NAME_LABELS[saving.goalName]}
+                  </CardTitle>
+                  <span>
+                    {saving.deadline
+                      ? `Deadline: ${saving.deadline}`
+                      : "No deadline"}
+                  </span>
+                  <div className="flex items-center gap-x-2">
+                    <span className="font-medium text-green-600">
+                      {percent}%
+                    </span>
+                    <AddFundsDialog
+                      savingsGoalId={saving.id}
+                      goalName={saving.goalName}
+                      currentAmount={saving.currentAmount}
+                      targetAmount={saving.targetAmount}
+                    />
+                  </div>
                 </div>
               </div>
             </CardHeader>
@@ -80,8 +69,8 @@ const SavingsList = ({ user }: SavingsListProps) => {
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-muted-foreground">Saved</span>
                 <span className="font-medium">
-                  ₱{saving.currentAmount.toLocaleString()} / ₱
-                  {saving.targetAmount.toLocaleString()}
+                  {toCurrency(saving.currentAmount)} /{" "}
+                  {toCurrency(saving.targetAmount)}
                 </span>
               </div>
               <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
@@ -91,13 +80,16 @@ const SavingsList = ({ user }: SavingsListProps) => {
                 />
               </div>
             </CardContent>
+
             <CardFooter className="flex justify-between text-xs text-muted-foreground">
               <span>
                 {saving.deadline
                   ? `Deadline: ${saving.deadline}`
                   : "No deadline"}
               </span>
-              <span className="font-medium text-green-600">{percent}%</span>
+              <div className="flex items-center gap-x-2">
+                <span className="font-medium text-green-600">{percent}%</span>
+              </div>
             </CardFooter>
           </Card>
         );
