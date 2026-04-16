@@ -17,12 +17,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { GOAL_NAME_LABELS } from "../constants";
+import DatePicker from "@/components/date-picker";
+import { toast } from "sonner";
+import useActionFeedback from "@/features/hook/use-action-feedback";
 
 const CreateSavingsForm = () => {
   const [actionState, action, isPending] = useActionState<
     ActionState,
     FormData
   >(createSavings, EMPTY_ACTION_STATE);
+
+  useActionFeedback(actionState, {
+    onSuccess: ({ actionState }) => {
+      toast.success(actionState.message);
+    },
+    onError: ({ actionState }) => {
+      toast.error(actionState.message);
+    },
+  });
 
   return (
     <form action={action} className="flex flex-col gap-4">
@@ -70,10 +82,10 @@ const CreateSavingsForm = () => {
 
         <div className="grid gap-1.5">
           <Label htmlFor="deadline">Deadline</Label>
-          <Input
+          <DatePicker
+            key={actionState.timestamp}
             id="deadline"
             name="deadline"
-            type="date"
             defaultValue={actionState.payload?.get("deadline") as string}
           />
           {actionState.fieldErrors?.deadline && (

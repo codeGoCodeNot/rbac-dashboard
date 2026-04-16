@@ -19,7 +19,12 @@ const SavingsPage = async () => {
       <CreateSavingsForm />
 
       <Suspense fallback={<Spinner />}>
-        <SavingsList user={user} />
+        <div className="flex flex-col gap-y-4">
+          <h2 className="text-lg font-semibold">
+            {user?.name?.split(" ")[0]}'s Savings Goals
+          </h2>
+          <SavingsList user={user} />
+        </div>
       </Suspense>
     </div>
   );
