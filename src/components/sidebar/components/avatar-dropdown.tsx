@@ -12,8 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
-import { signInPage } from "@/path";
+import { profilePage, signInPage } from "@/path";
 import { User } from "better-auth/types";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -62,7 +63,9 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
             {user?.name?.split(" ")[0] ?? "User"}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={profilePage()}>Profile</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

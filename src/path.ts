@@ -9,3 +9,6 @@ export const savingsPage = () => "/savings";
 export const contributionsPage = () => "/contributions";
 export const profilePage = () => "/profile";
 export const settingsPage = () => "/settings";
+
+// profile
+export const editProfilePage = () => "/profile";
