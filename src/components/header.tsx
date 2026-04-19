@@ -1,15 +1,15 @@
 "use client";
 
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
+import { homePage } from "@/path";
 import { User } from "better-auth/types";
+import { LucideSave } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import AvatarDropdown from "./sidebar/components/avatar-dropdown";
-import { SidebarTrigger } from "./ui/sidebar";
 import { Button } from "./ui/button";
-import { LucideSave } from "lucide-react";
-import Link from "next/link";
-import { homePage } from "@/path";
+import { SidebarTrigger } from "./ui/sidebar";
 
 const Header = () => {
   const [user, setUser] = useState<User | null>(null);
