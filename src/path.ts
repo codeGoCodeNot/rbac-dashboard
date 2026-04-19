@@ -12,3 +12,6 @@ export const settingsPage = () => "/settings";
 
 // profile
 export const editProfilePage = () => "/profile";
+
+// verification
+export const verifyEmailPage = () => "/verify-email";

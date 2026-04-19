@@ -8,3 +8,9 @@ export const signInRateLimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(5, "10m"),
   prefix: "ratelimit:signInRateLimit",
 });
+
+export const resendVerificationEmailRateLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, "10m"),
+  prefix: "ratelimit:resendVerification",
+});

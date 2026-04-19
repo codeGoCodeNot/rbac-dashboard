@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/utils/password";
 import { nextCookies } from "better-auth/next-js";
+import { resend } from "./resend";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -22,11 +23,18 @@ export const auth = betterAuth({
       verify: verifyPassword,
     },
   },
-  plugins: [nextCookies()],
-  session: {
-    cookieCache: {
-      enabled: true,
-      maxAge: 5 * 60, // 5 minutes
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 300,
+    sendVerificationEmail: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Savings App <verify@savings.johnsenb.dev>",
+        to: user.email,
+        subject: "Verify your email",
+        html: `<p>Hi ${user.name}, click <a href="${url}">here</a> to verify your email.</p>`,
+      });
     },
   },
+  plugins: [nextCookies()],
 });
