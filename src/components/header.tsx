@@ -6,28 +6,29 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { LucideSave } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import AvatarDropdown from "./sidebar/components/avatar-dropdown";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
-import { useEffect } from "react";
 
 const Header = () => {
   const pathname = usePathname();
   const queryClient = useQueryClient();
-  const { data: user, dataUpdatedAt } = useQuery({
+  const { data: user, isPending } = useQuery({
     queryKey: ["user"],
     queryFn: getAuthUser,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
+
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["user"] });
+    if (!user) {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    }
   }, [pathname]);
 
+  if (isPending) return null;
   return (
-    <header
-      key={`${pathname}-${dataUpdatedAt}`}
-      className="min-h-[53px] border-b border-gray-300 px-5 flex items-center justify-between animate-fade-from-top fixed top-0 z-20 w-full bg-background"
-    >
+    <header className="min-h-[53px] border-b border-gray-300 px-5 flex items-center justify-between animate-fade-from-top fixed top-0 z-20 w-full bg-background">
       <div>{user && <AvatarDropdown user={user} />}</div>
       <Button
         variant="ghost"
