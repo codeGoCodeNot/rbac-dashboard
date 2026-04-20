@@ -11,7 +11,7 @@ import { User } from "better-auth/types";
 import { LucideUpload } from "lucide-react";
 import { useActionState, useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
-import uploadAvatar from "../actions/upload-avatar";
+import updateProfile from "../actions/update-profile";
 import CropImageDialog from "./crop-image-dialog";
 import createCroppedImage from "../utils/create-cropped-image";
 
@@ -32,7 +32,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [actionState, action, isPending] = useActionState(
-    uploadAvatar,
+    updateProfile,
     EMPTY_ACTION_STATE,
   );
 

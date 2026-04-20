@@ -15,3 +15,6 @@ export const editProfilePage = () => "/profile";
 
 // verification
 export const verifyEmailPage = () => "/verify-email";
+
+// email
+export const emailChangePage = () => "/email-change";

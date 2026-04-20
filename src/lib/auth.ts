@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, email } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/utils/password";
@@ -22,6 +22,21 @@ export const auth = betterAuth({
     password: {
       hash: hashPassword,
       verify: verifyPassword,
+    },
+  },
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
+        await inngest.send({
+          name: "app/email.change",
+          data: {
+            email: newEmail,
+            name: user.name,
+            url,
+          },
+        });
+      },
     },
   },
   emailVerification: {
