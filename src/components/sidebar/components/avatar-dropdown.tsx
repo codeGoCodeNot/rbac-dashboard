@@ -59,20 +59,25 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40" align="start">
+      <DropdownMenuContent className="w-60" align="start">
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuItem>
-            {user?.name?.split(" ")[0] ?? "User"}
-          </DropdownMenuItem>
+          <div className="px-2 py-1.5">
+            <p className="text-sm font-medium">{user?.name}</p>
+            <p className="text-xs text-muted-foreground">{user?.email}</p>
+          </div>
           <DropdownMenuSeparator />
+        </DropdownMenuGroup>
+        <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href={profilePage()}>Profile</Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleLogout} disabled={loading}>
+          </DropdownMenuItem>{" "}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={handleLogout}
+            disabled={loading}
+            className="text-destructive focus:text-destructive"
+          >
             {loading ? "Logging out..." : "Log out"}
           </DropdownMenuItem>
         </DropdownMenuGroup>
