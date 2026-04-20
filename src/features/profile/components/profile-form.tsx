@@ -1,4 +1,5 @@
 "use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,19 +8,20 @@ import { EMPTY_ACTION_STATE } from "@/components/utils/to-action-state";
 import useActionFeedback from "@/features/hook/use-action-feedback";
 import { useSession } from "@/lib/auth-client";
 import { User } from "better-auth/types";
-import { LucideUpload, LucideUserCircle } from "lucide-react";
-import Image from "next/image";
+import { LucideUpload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useActionState, useRef, useState } from "react";
-import uploadAvatar from "../actions/upload-avatar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import uploadAvatar from "../actions/upload-avatar";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ProfileFormProps = {
   user: User | null | undefined;
 };
 
 const ProfileForm = ({ user }: ProfileFormProps) => {
+  const queryClient = useQueryClient();
+
   const fileRef = useRef<HTMLInputElement>(null);
   const [actionState, action, isPending] = useActionState(
     uploadAvatar,
@@ -29,14 +31,10 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
     user?.image ?? null,
   );
 
-  const router = useRouter();
-  const { refetch } = useSession();
-
   useActionFeedback(actionState, {
     onSuccess: ({ actionState }) => {
       toast.success(actionState.message);
-      refetch();
-      router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 

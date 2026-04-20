@@ -28,13 +28,13 @@ const signIn = async (_actionState: ActionState, formData: FormData) => {
     const ip = await getIp();
     const { success, reset } = await signInRateLimit.limit(ip);
 
-    if (!success) {
-      const resetIn = Math.round((reset - Date.now()) / 1000 / 60);
-      return toActionState(
-        "ERROR",
-        `Too many attempts. Try again in ${resetIn} minutes`,
-      );
-    }
+    // if (!success) {
+    //   const resetIn = Math.round((reset - Date.now()) / 1000 / 60);
+    //   return toActionState(
+    //     "ERROR",
+    //     `Too many attempts. Try again in ${resetIn} minutes`,
+    //   );
+    // }
 
     await auth.api.signInEmail({
       headers: await headers(),

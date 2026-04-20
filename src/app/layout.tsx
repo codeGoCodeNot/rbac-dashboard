@@ -11,6 +11,7 @@ import {
 import { AppSidebar } from "@/components/sidebar/components/sidebar";
 import { Toaster } from "sonner";
 import RedirectToast from "@/components/redirect-toast";
+import Providers from "./_provider/react-query-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -47,17 +48,19 @@ export default function RootLayout({
       )}
     >
       <body>
-        <SidebarProvider>
-          <SidebarInset>
-            <AppSidebar />
-            <Header />
-            <main className="py-35 px-10 min-h-screen flex flex-col flex-1 overflow-y-auto mr-0 md:mr-10">
-              {children}
-            </main>
-          </SidebarInset>
-        </SidebarProvider>
-        <RedirectToast />
-        <Toaster expand />
+        <Providers>
+          <SidebarProvider>
+            <SidebarInset>
+              <AppSidebar />
+              <Header />
+              <main className="py-35 px-10 min-h-screen flex flex-col flex-1 overflow-y-auto mr-0 md:mr-10">
+                {children}
+              </main>
+            </SidebarInset>
+          </SidebarProvider>
+          <RedirectToast />
+          <Toaster expand />
+        </Providers>
       </body>
     </html>
   );

@@ -18,8 +18,7 @@ import {
 import GoogleSignIn from "@/features/auth/components/google-sign-in";
 import { forgotPasswordPage, signUpPage } from "@/path";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import signIn from "../actions/sign-in";
 import PasswordInput from "./password-input";
 
@@ -28,12 +27,6 @@ const SignInForm = () => {
     ActionState,
     FormData
   >(signIn, EMPTY_ACTION_STATE);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (actionState.status === "SUCCESS") router.refresh();
-  }, [actionState.timestamp]);
 
   return (
     <Card className="w-full max-w-sm">

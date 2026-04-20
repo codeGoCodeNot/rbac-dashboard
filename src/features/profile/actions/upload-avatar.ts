@@ -40,7 +40,7 @@ const uploadAvatar = async (_actionState: ActionState, formData: FormData) => {
         buffer,
         contentType: image.type,
       });
-      imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+      imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}?t=${Date.now()}`;
       await auth.api.updateUser({
         headers: await headers(),
         body: {

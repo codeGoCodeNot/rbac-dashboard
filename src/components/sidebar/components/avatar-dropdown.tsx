@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
 import { profilePage, signInPage } from "@/path";
+import { useQueryClient } from "@tanstack/react-query";
 import { User } from "better-auth/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,7 @@ type AvatarDropdownProps = {
 const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -35,6 +37,7 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
     if (error) {
       return toast.error("Failed to log out. Please try again.");
     } else {
+      queryClient.removeQueries({ queryKey: ["user"] });
       toast.success("Logged out successfully.");
       router.push(signInPage());
     }
