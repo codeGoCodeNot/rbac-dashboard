@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "GoalName" ADD VALUE 'PERSONAL_SAVINGS';

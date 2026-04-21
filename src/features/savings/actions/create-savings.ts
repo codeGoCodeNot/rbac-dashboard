@@ -11,15 +11,10 @@ import { savingsPage } from "@/path";
 import { toCent } from "@/utils/currency";
 import { revalidatePath } from "next/cache";
 import z from "zod";
+import { GoalName } from "../../../../generated/prisma/enums";
 
 const createSavingsSchema = z.object({
-  goalName: z.enum([
-    "EMERGENCY_FUND",
-    "VACATION",
-    "NEW_GADGET",
-    "HOME_DOWN_PAYMENT",
-    "OTHER",
-  ]),
+  goalName: z.enum(Object.values(GoalName)),
   targetAmount: z.coerce.number().positive("Target Amount is required."),
   deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "is required"),
 });

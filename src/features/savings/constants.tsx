@@ -4,9 +4,11 @@ import {
   LucideLaptop,
   LucideHome,
   LucideMoreHorizontal,
+  LucideSave,
 } from "lucide-react";
 
 export const GOAL_NAME_ICONS = {
+  PERSONAL_SAVINGS: <LucideSave />,
   EMERGENCY_FUND: <LucideAlertCircle />,
   VACATION: <LucidePlane />,
   NEW_GADGET: <LucideLaptop />,
@@ -15,6 +17,7 @@ export const GOAL_NAME_ICONS = {
 };
 
 export const GOAL_NAME_LABELS = {
+  PERSONAL_SAVINGS: "Personal Savings",
   EMERGENCY_FUND: "Emergency Fund",
   VACATION: "Vacation",
   NEW_GADGET: "New Gadget",

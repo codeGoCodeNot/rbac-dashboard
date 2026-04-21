@@ -24,6 +24,7 @@ model SavingsGoal {
 }
 
 enum GoalName {
+  PERSONAL_SAVINGS
   EMERGENCY_FUND
   VACATION
   NEW_GADGET
