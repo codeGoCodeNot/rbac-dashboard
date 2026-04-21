@@ -12,6 +12,7 @@ import { toCent } from "@/utils/currency";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 import { GoalName } from "../../../../generated/prisma/enums";
+import getSession from "@/lib/get-session";
 
 const createSavingsSchema = z.object({
   goalName: z.enum(Object.values(GoalName)),
@@ -22,14 +23,21 @@ const createSavingsSchema = z.object({
 const createSavings = async (_actionState: ActionState, formData: FormData) => {
   const user = await getAuthOrRedirect();
 
+  const session = await getSession();
+  const organizationId = session?.session.activeOrganizationId;
+
   try {
     const data = createSavingsSchema.parse(
       Object.fromEntries(formData.entries()),
     );
 
+    if (!organizationId)
+      return toActionState("ERROR", "No active organization found.");
+
     await prisma.savingsGoal.create({
       data: {
         ...data,
+        organizationId,
         targetAmount: toCent(data.targetAmount),
         userId: user.id,
       },

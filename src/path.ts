@@ -18,3 +18,9 @@ export const verifyEmailPage = () => "/verify-email";
 
 // email
 export const emailChangePage = () => "/email-change";
+
+// organization
+export const organizationPage = () => "/organization";
+export const createOrganizationPage = () => "/organization/create";
+export const organizationDetailsPage = (orgId: string) =>
+  `/organization/${orgId}`;

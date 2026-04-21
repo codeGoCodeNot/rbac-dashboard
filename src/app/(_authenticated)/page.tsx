@@ -8,10 +8,12 @@ import {
   LucideSave,
   LucideSettings,
   LucideUser,
+  LucideUsers,
 } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import {
   contributionsPage,
+  organizationPage,
   profilePage,
   savingsPage,
   settingsPage,
@@ -65,6 +67,17 @@ const HomePage = async () => {
             icon={
               <div className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center mb-2">
                 <LucideSettings className="w-5 h-5 text-gray-600" />
+              </div>
+            }
+          />
+
+          <DashboardCard
+            title="Organizations"
+            description="Manage your savings groups and members"
+            link={organizationPage()}
+            icon={
+              <div className="w-10 h-10 rounded-md bg-purple-50 flex items-center justify-center mb-2">
+                <LucideUsers className="w-5 h-5 text-purple-700" />
               </div>
             }
           />

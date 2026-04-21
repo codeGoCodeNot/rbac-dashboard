@@ -18,9 +18,12 @@ model SavingsGoal {
   deadline String
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   contributions Contribution[]
 
   @@index([userId])
+  @@index([organizationId])
 }
 
 enum GoalName {
@@ -36,11 +39,21 @@ model Contribution {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   amount Int
- note String?
+  note String?
+  status Status @default(PENDING)
   savingsGoalId String
   savingsGoal SavingsGoal @relation(fields: [savingsGoalId], references: [id], onDelete: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([savingsGoalId])
+  @@index([userId])
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model User {
@@ -54,9 +67,43 @@ model User {
   sessions      Session[]
   accounts      Account[]
   savingsGoals   SavingsGoal[]
+  members        Member[]
+  contributions   Contribution[]
 
   @@unique([email])
   @@map("user")
+}
+
+model Organization {
+  id String @id @default(uuid())
+  name String
+  slug String 
+  logo String?
+  metadata String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members Member[]
+  savingsGoals SavingsGoal[]
+
+  @@unique([slug])
+}
+model Member {
+  id String @id @default(uuid())
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role MemberRole @default(member)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([organizationId])
+}
+
+enum MemberRole {
+  owner
+  admin
+  member
 }
 
 model Session {
@@ -69,6 +116,7 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeOrganizationId String?
 
   @@unique([token])
   @@index([userId])

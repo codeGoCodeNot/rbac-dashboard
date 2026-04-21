@@ -1,0 +1,50 @@
+"use server";
+
+import { setCookieByKey } from "@/actions/cookies";
+import {
+  ActionState,
+  fromErrorToActionState,
+} from "@/components/utils/to-action-state";
+import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
+import { auth } from "@/lib/auth";
+import { organizationPage } from "@/path";
+import { randomUUID } from "crypto";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import z from "zod";
+
+const createOrganizationSchema = z.object({
+  name: z.string().min(1, "Organization name is required").max(191),
+});
+
+const createOrganization = async (
+  _actionState: ActionState,
+  formData: FormData,
+) => {
+  const user = await getAuthOrRedirect();
+
+  try {
+    const { name } = createOrganizationSchema.parse(
+      Object.fromEntries(formData.entries()),
+    );
+
+    const createOrg = await auth.api.createOrganization({
+      headers: await headers(),
+      body: {
+        name,
+        slug: `${name.toLowerCase().replace(/\s+/g, "-")}-${randomUUID().slice(0, 8)}`,
+      },
+    });
+
+    await auth.api.setActiveOrganization({
+      headers: await headers(),
+      body: { organizationId: createOrg.id },
+    });
+  } catch (error) {
+    return fromErrorToActionState(error, formData);
+  }
+  await setCookieByKey("toast", "Organization created successfully");
+  redirect(organizationPage());
+};
+
+export default createOrganization;

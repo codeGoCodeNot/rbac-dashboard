@@ -5,6 +5,7 @@ import {
   fromErrorToActionState,
   toActionState,
 } from "@/components/utils/to-action-state";
+import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import prisma from "@/lib/prisma";
 import { savingsPage } from "@/path";
 import { toCent } from "@/utils/currency";
@@ -21,6 +22,8 @@ const addContribution = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
+  const user = await getAuthOrRedirect();
+
   try {
     const { amount, note } = addContributionSchema.parse(
       Object.fromEntries(formData.entries()),
@@ -28,7 +31,7 @@ const addContribution = async (
 
     await prisma.$transaction([
       prisma.contribution.create({
-        data: { amount: toCent(amount), note, savingsGoalId },
+        data: { amount: toCent(amount), note, savingsGoalId, userId: user.id },
       }),
       prisma.savingsGoal.update({
         where: { id: savingsGoalId },

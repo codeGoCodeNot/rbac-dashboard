@@ -5,6 +5,7 @@ import { hashPassword, verifyPassword } from "@/utils/password";
 import { nextCookies } from "better-auth/next-js";
 import { resend } from "./resend";
 import { inngest } from "./inngest";
+import { admin, organization } from "better-auth/plugins";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -54,5 +55,5 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [nextCookies()],
+  plugins: [nextCookies(), organization(), admin()],
 });
