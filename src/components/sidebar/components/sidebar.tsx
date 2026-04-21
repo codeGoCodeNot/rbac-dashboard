@@ -4,12 +4,17 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { navItems } from "../constants";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 export function AppSidebar() {
   const { open, setOpen, isMobile } = useSidebar();
@@ -34,10 +39,30 @@ export function AppSidebar() {
           onClick={() => setOpen(false)}
         />
       )}
-      <Sidebar side="right" collapsible={isAuth ? "icon" : "offcanvas"}>
-        <SidebarHeader />
+      <Sidebar side="right" collapsible="icon">
         <SidebarContent>
-          <SidebarGroup />
+          <SidebarGroup className="mt-15" />
+          <SidebarGroup>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  {item.separator && <Separator className="my-2" />}
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                    className="h-10 group-data-[collapsible=icon]:justify-center"
+                  >
+                    <Link href={item.href}>
+                      {item.icon}
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.title}
+                      </span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
           <SidebarGroup />
         </SidebarContent>
         <SidebarFooter />
