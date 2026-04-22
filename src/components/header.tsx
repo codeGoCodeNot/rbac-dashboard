@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import AvatarDropdown from "./sidebar/components/avatar-dropdown";
+import AvatarDropdown from "./avatar-dropdown";
 import { SidebarTrigger } from "./ui/sidebar";
 
 const Header = () => {

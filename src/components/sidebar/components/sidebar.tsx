@@ -1,8 +1,8 @@
 "use client";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
@@ -10,11 +10,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
+import { settingsPage } from "@/path";
+import { LucideSettings } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { navItems } from "../constants";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 
 export function AppSidebar() {
   const { open, setOpen, isMobile } = useSidebar();
@@ -63,9 +64,25 @@ export function AppSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroup>
-          <SidebarGroup />
+          <SidebarGroup className="mt-auto">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === settingsPage()}
+                  className="h-10 group-data-[collapsible=icon]:justify-center"
+                >
+                  <Link href={settingsPage()}>
+                    <LucideSettings className="text-gray-600" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Settings
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter />
       </Sidebar>
     </>
   );

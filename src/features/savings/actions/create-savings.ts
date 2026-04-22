@@ -26,13 +26,17 @@ const createSavings = async (_actionState: ActionState, formData: FormData) => {
   const session = await getSession();
   const organizationId = session?.session.activeOrganizationId;
 
+  if (!organizationId)
+    return toActionState(
+      "ERROR",
+      "No active organization. Please create or select one first.",
+      formData,
+    );
+
   try {
     const data = createSavingsSchema.parse(
       Object.fromEntries(formData.entries()),
     );
-
-    if (!organizationId)
-      return toActionState("ERROR", "No active organization found.");
 
     await prisma.savingsGoal.create({
       data: {

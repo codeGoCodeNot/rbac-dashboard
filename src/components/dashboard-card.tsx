@@ -23,7 +23,7 @@ const DashboardCard = ({
 }: DashboardCardProps) => {
   return (
     <Link href={link}>
-      <Card className="hover:border-foreground/30 transition-colors cursor-pointer h-full">
+      <Card className="hover:border-foreground/30 hover:-translate-y-1 duration-300 ease-out transition-all cursor-pointer h-full">
         <CardHeader>
           <div className="w-10 h-10 rounded-md bg-muted flex items-center justify-center mb-2">
             {icon}

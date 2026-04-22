@@ -49,9 +49,4 @@ export const navItems: NavItem[] = [
     href: organizationPage(),
     icon: <LucideUsers className="text-purple-700" />,
   },
-  {
-    title: "Settings",
-    href: settingsPage(),
-    icon: <LucideSettings className="text-gray-600" />,
-  },
 ];
