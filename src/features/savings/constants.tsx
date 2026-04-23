@@ -24,3 +24,9 @@ export const GOAL_NAME_LABELS = {
   HOME_DOWN_PAYMENT: "Home Down Payment",
   OTHER: "Other",
 };
+
+export const GOAL_STATUS_LABELS = {
+  PENDING: "Pending",
+  APPROVED: "Approved",
+  REJECTED: "Rejected",
+};

@@ -12,6 +12,7 @@ model SavingsGoal {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  goalStatus GoalStatus @default(PENDING)
   goalName GoalName
   targetAmount Int
   currentAmount Int @default(0)
@@ -24,6 +25,12 @@ model SavingsGoal {
 
   @@index([userId])
   @@index([organizationId])
+}
+
+enum GoalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum GoalName {

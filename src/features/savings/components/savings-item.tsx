@@ -12,6 +12,7 @@ import { User } from "better-auth/types";
 import { SavingsGoal } from "../../../../generated/prisma/client";
 import { GOAL_NAME_LABELS } from "../constants";
 import AddFundsDialog from "./add-funds-dialog";
+import GoalStatusUpdate from "./update-goal-status";
 import SavingsMoreMenu from "./savings-more-menu";
 
 type SavingsItemProps = {
@@ -77,6 +78,7 @@ const SavingsItem = ({ saving, percent, user }: SavingsItemProps) => {
         <span>
           {saving.deadline ? `Deadline: ${saving.deadline}` : "No deadline"}
         </span>
+        <GoalStatusUpdate saving={saving} />
       </CardFooter>
     </Card>
   );
