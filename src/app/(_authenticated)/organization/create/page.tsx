@@ -1,4 +1,4 @@
-import OrganizationCreateForm from "@/features/organization/components/organization-create-form";
+import OrganizationCreateForm from "@/features/organizations-feature/organization/components/organization-create-form";
 
 const CreateOrganizationPage = () => {
   return (

@@ -1,5 +1,5 @@
 import { format } from "date-fns/format";
-import { Invitation, User } from "../../../../generated/prisma/client";
+import { Invitation, User } from "../../../../../generated/prisma/client";
 
 type InvitationWithInviter = Invitation & {
   inviter: Pick<User, "name" | "email"> | null;

@@ -44,9 +44,4 @@ export const navItems: NavItem[] = [
     href: profilePage(),
     icon: <LucideCircleUser className="text-blue-700" />,
   },
-  {
-    title: "Organizations",
-    href: organizationPage(),
-    icon: <LucideUsers className="text-purple-700" />,
-  },
 ];

@@ -1,8 +1,8 @@
 import Heading from "@/components/heading";
 import { Spinner } from "@/components/ui/spinner";
-import InvitationCreateButton from "@/features/organization/components/invitation-create-button";
-import InvitationList from "@/features/organization/components/invitation-list";
-import getInvitations from "@/features/organization/queries/get-invitations";
+import InvitationCreateButton from "@/features/organizations-feature/invitation/components/invitation-create-button";
+import InvitationList from "@/features/organizations-feature/invitation/components/invitation-list";
+import getInvitations from "@/features/organizations-feature/invitation/queries/get-invitations";
 import { Suspense } from "react";
 
 type InvitationPageProps = {

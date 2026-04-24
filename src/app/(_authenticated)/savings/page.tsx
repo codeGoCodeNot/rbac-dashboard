@@ -5,7 +5,7 @@ import Heading from "@/components/heading";
 import { Spinner } from "@/components/ui/spinner";
 import SavingsList from "@/features/savings/components/savings-list";
 import CreateSavingsForm from "@/features/savings/components/create-savings-form";
-import getActiveOrganization from "@/features/organization/queries/get-active-organization";
+import getActiveOrganization from "@/features/organizations-feature/organization/queries/get-active-organization";
 import { redirect } from "next/navigation";
 import { organizationPage } from "@/path";
 
