@@ -26,3 +26,5 @@ export const organizationDetailsPage = (orgId: string) =>
   `/organization/${orgId}`;
 export const organizationInvitationsPage = (orgId: string) =>
   `/organization/${orgId}/invitations`;
+export const acceptInvitePage = (inviteId: string) =>
+  `/accept-invite/${inviteId}`;

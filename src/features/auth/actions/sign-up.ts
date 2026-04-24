@@ -28,7 +28,7 @@ const signUpSchema = z
 
 const signUp = async (_actionState: ActionState, formData: FormData) => {
   try {
-    const { name, email, password, confirmPassword } = signUpSchema.parse(
+    const { name, email, password } = signUpSchema.parse(
       Object.fromEntries(formData.entries()),
     );
 
