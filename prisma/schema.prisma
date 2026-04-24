@@ -76,6 +76,7 @@ model User {
   savingsGoals   SavingsGoal[]
   members        Member[]
   contributions   Contribution[]
+  invitations Invitation[]
 
   @@unique([email])
   @@map("user")
@@ -91,6 +92,7 @@ model Organization {
   updatedAt DateTime @updatedAt
   members Member[]
   savingsGoals SavingsGoal[]
+  invitations Invitation[]
 
   @@unique([slug])
 }
@@ -107,10 +109,23 @@ model Member {
   @@index([organizationId])
 }
 
+
 enum MemberRole {
   owner
   admin
   member
+}
+model Invitation {
+  id String @id @default(uuid())
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email String
+  role String?
+  status String @default("pending")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  inviterId String
+  inviter User @relation(fields: [inviterId], references: [id], onDelete: Cascade)
 }
 
 model Session {

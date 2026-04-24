@@ -55,5 +55,26 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [nextCookies(), organization(), admin()],
+  plugins: [
+    nextCookies(),
+    organization({
+      sendInvitationEmail: async (data) => {
+        console.log("sending invitation to", data.email);
+        const inviteLink = `${process.env.BETTER_AUTH_URL}/invitations/${data.invitation.id}`;
+
+        await inngest.send({
+          name: "app/organization.invitation",
+          data: {
+            email: data.email,
+            inviteByUsername: data.inviter.user.name,
+            organizationName: data.organization.name,
+            inviteLink,
+          },
+        });
+      },
+      requireEmailVerificationOnInvitation: true,
+      invitationExpiresIn: 7 * 24 * 60 * 60, // 7 days
+    }),
+    admin(),
+  ],
 });
