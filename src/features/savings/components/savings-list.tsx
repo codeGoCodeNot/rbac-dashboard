@@ -13,6 +13,9 @@ const SavingsList = async ({ user }: SavingsListProps) => {
 
   const savings = await getSavings(user.id);
 
+  if (!savings || savings.length === 0)
+    return <Placeholder label="No savings yet." />;
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       {savings.map((saving) => {

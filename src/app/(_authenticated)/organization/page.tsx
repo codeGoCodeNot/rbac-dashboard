@@ -2,7 +2,6 @@ import Heading from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import OrganizationList from "@/features/organizations-feature/organization/components/organization-list";
-
 import Link from "next/link";
 
 import { Suspense } from "react";

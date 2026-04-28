@@ -5,10 +5,17 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import getActiveOrganization from "../queries/get-active-organization";
 import OrganizationSwitchButton from "./organization-switch-button";
+import Placeholder from "@/components/placeholder";
 
 const OrganizationList = async () => {
   const organizations = await getOrganizationByUser();
   const activeOrganization = await getActiveOrganization();
+
+  if (!organizations || organizations.length === 0)
+    return (
+      <Placeholder label="No organizations yet. Create one to get started." />
+    );
+
   return (
     <div className="flex flex-col gap-y-2 max-w-3xl mx-auto w-full">
       {organizations.map(({ membershipByUser, ...organization }) => (
