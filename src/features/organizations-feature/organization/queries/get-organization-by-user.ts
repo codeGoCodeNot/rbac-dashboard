@@ -1,9 +1,9 @@
-import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
+import getAuth from "@/lib/get-auth";
 import prisma from "@/lib/prisma";
 import { cache } from "react";
 
 const getOrganizationByUser = cache(async () => {
-  const user = await getAuthOrRedirect();
+  const user = await getAuth();
   if (!user) return [];
 
   const organizations = await prisma.organization.findMany({

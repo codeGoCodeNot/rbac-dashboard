@@ -7,7 +7,8 @@ import {
 } from "@/components/utils/to-action-state";
 import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import { auth } from "@/lib/auth";
-import { organizationPage } from "@/path";
+import getAuth from "@/lib/get-auth";
+import { organizationPage, signInPage } from "@/path";
 import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -21,7 +22,8 @@ const createOrganization = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const user = await getAuthOrRedirect();
+  const user = await getAuth();
+  if (!user) redirect(signInPage());
 
   try {
     const { name } = createOrganizationSchema.parse(

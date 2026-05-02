@@ -1,18 +1,9 @@
-import {
-  contributionsPage,
-  homePage,
-  organizationPage,
-  profilePage,
-  savingsPage,
-  settingsPage,
-} from "@/path";
+import { contributionsPage, homePage, profilePage, savingsPage } from "@/path";
 import {
   LucideCircleUser,
   LucideHome,
   LucidePenLine,
   LucideSave,
-  LucideSettings,
-  LucideUsers,
 } from "lucide-react";
 
 type NavItem = {

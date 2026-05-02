@@ -28,3 +28,4 @@ export const organizationInvitationsPage = (orgId: string) =>
   `/organization/${orgId}/invitations`;
 export const acceptInvitePage = (inviteId: string) =>
   `/accept-invite/${inviteId}`;
+export const onboardingPage = () => "/onboarding";

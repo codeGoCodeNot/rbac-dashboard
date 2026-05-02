@@ -36,21 +36,21 @@ export function AppSidebar() {
   const [activeOrgId, setActiveOrgId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuth) return;
-    const fetchActiveOrg = async () => {
+    const init = async () => {
+      const user = await getAuthUser();
+      if (!user) {
+        setIsAuth(false);
+        setActiveOrgId(null);
+        return;
+      }
+      setIsAuth(true);
       const { data } = await organization.getFullOrganization();
       if (data) setActiveOrgId(data.id);
+      else setActiveOrgId(null);
     };
-    fetchActiveOrg();
-  }, [isAuth]);
-
-  useEffect(() => {
-    const check = async () => {
-      const user = await getAuthUser();
-      setIsAuth(!!user);
-    };
-    check();
+    init();
   }, [pathname]);
+
   if (!isAuth) return null;
   return (
     <>
@@ -87,39 +87,41 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroup>
           <div className="h-px bg-border mx-2 my-1" />
-          <SidebarGroup>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <LucideBuilding2 className="text-purple-700" />
-                    <span className="group-data-[collapsible=icon]:hidden">
-                      Organization
-                    </span>
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Link
-                      href={organizationPage()}
-                      className="flex items-center gap-2"
-                    >
-                      Organization
-                    </Link>
-                  </DropdownMenuItem>
-                  <Separator />
-                  <DropdownMenuItem>
-                    <Link
-                      href={organizationInvitationsPage(activeOrgId ?? "")}
-                      className="flex items-center gap-2"
-                    >
-                      Invitations
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarGroup>
+          {activeOrgId && (
+            <SidebarGroup>
+              <SidebarMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton>
+                      <LucideBuilding2 className="text-purple-700" />
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        Organization
+                      </span>
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Link
+                        href={organizationPage()}
+                        className="flex items-center gap-2"
+                      >
+                        Organization
+                      </Link>
+                    </DropdownMenuItem>
+                    <Separator />
+                    <DropdownMenuItem>
+                      <Link
+                        href={organizationInvitationsPage(activeOrgId ?? "")}
+                        className="flex items-center gap-2"
+                      >
+                        Invitations
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
+            </SidebarGroup>
+          )}
 
           <SidebarGroup className="mt-auto">
             <SidebarMenu>

@@ -1,5 +1,6 @@
 import Heading from "@/components/heading";
 import { Spinner } from "@/components/ui/spinner";
+import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import InvitationCreateButton from "@/features/organizations-feature/invitation/components/invitation-create-button";
 import InvitationList from "@/features/organizations-feature/invitation/components/invitation-list";
 import getInvitations from "@/features/organizations-feature/invitation/queries/get-invitations";
@@ -10,6 +11,7 @@ type InvitationPageProps = {
 };
 
 const InvitationPage = async ({ params }: InvitationPageProps) => {
+  await getAuthOrRedirect();
   const { organizationId } = await params;
 
   const invitations = await getInvitations(organizationId);
@@ -22,16 +24,11 @@ const InvitationPage = async ({ params }: InvitationPageProps) => {
         actions={<InvitationCreateButton organizationId={organizationId} />}
       />
 
-      {invitations.length > 0 ? (
+      {
         <Suspense fallback={<Spinner />}>
           <InvitationList invitations={invitations} />
         </Suspense>
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          No invitations found. Use the button above to invite members to your
-          organization.
-        </p>
-      )}
+      }
     </div>
   );
 };
