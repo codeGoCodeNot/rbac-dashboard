@@ -6,24 +6,25 @@ const getActiveOrganization = cache(async () => {
   const session = await getSession();
   if (!session) return null;
 
-  const activeOrganizationId = session?.session.activeOrganizationId;
+  const { user, session: sessionData } = session;
+  const activeOrganizationId = sessionData.activeOrganizationId;
 
-  if (!activeOrganizationId) {
-    const firstOrganization = await prisma.organization.findFirst({
+  if (activeOrganizationId) {
+    const org = await prisma.organization.findFirst({
       where: {
-        members: {
-          some: {
-            userId: session.user.id,
-          },
-        },
+        id: activeOrganizationId,
+        members: { some: { userId: user.id } },
       },
     });
-    return firstOrganization ?? null;
+    if (org) return org;
   }
-
-  return await prisma.organization.findUnique({
-    where: { id: activeOrganizationId },
-  });
+  return (
+    (await prisma.organization.findFirst({
+      where: {
+        members: { some: { userId: user.id } },
+      },
+    })) ?? null
+  );
 });
 
 export default getActiveOrganization;
