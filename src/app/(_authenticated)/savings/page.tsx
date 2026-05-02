@@ -10,8 +10,6 @@ import { redirect } from "next/navigation";
 import { createOrganizationPage, organizationPage } from "@/path";
 import getOrganizationByUser from "@/features/organizations-feature/organization/queries/get-organization-by-user";
 
-export const dynamic = "force-dynamic";
-
 const SavingsPage = async () => {
   const user = await getAuthOrRedirect();
   const activeOrganization = await getActiveOrganization();
