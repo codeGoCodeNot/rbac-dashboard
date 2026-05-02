@@ -1,7 +1,8 @@
 import getSession from "@/lib/get-session";
 import prisma from "@/lib/prisma";
+import { cache } from "react";
 
-const getActiveOrganization = async () => {
+const getActiveOrganization = cache(async () => {
   const session = await getSession();
   if (!session) return null;
 
@@ -23,6 +24,6 @@ const getActiveOrganization = async () => {
   return await prisma.organization.findUnique({
     where: { id: activeOrganizationId },
   });
-};
+});
 
 export default getActiveOrganization;

@@ -1,8 +1,8 @@
 import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import prisma from "@/lib/prisma";
-import { organization } from "better-auth/plugins";
+import { cache } from "react";
 
-const getOrganizationByUser = async () => {
+const getOrganizationByUser = cache(async () => {
   const user = await getAuthOrRedirect();
   if (!user) return [];
 
@@ -30,6 +30,6 @@ const getOrganizationByUser = async () => {
     ...organization,
     membershipByUser: organization.members[0],
   }));
-};
+});
 
 export default getOrganizationByUser;
