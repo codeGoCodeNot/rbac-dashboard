@@ -13,7 +13,7 @@ const ProfilePage = async () => {
         title="Update your profile"
         description="Keep your profile updated"
       />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-1 items-center justify-center">
         <Suspense fallback={<Spinner />}>
           <ProfileForm user={user} />
         </Suspense>
