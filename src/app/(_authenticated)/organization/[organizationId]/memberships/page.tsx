@@ -1,5 +1,6 @@
 import Heading from "@/components/heading";
 import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
+import InvitationCreateButton from "@/features/organizations-feature/invitation/components/invitation-create-button";
 
 type MembershipPageProps = {
   params: Promise<{ organizationId: string }>;
@@ -14,6 +15,7 @@ const MembershipsPage = async ({ params }: MembershipPageProps) => {
       <Heading
         title="Memberships"
         description="Manage your organization memberships"
+        actions={<InvitationCreateButton organizationId={organizationId} />}
       />
     </div>
   );
