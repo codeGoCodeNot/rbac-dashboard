@@ -7,13 +7,18 @@ import SavingsList from "@/features/savings/components/savings-list";
 import CreateSavingsForm from "@/features/savings/components/create-savings-form";
 import getActiveOrganization from "@/features/organizations-feature/organization/queries/get-active-organization";
 import { redirect } from "next/navigation";
-import { organizationPage } from "@/path";
+import { createOrganizationPage, organizationPage } from "@/path";
+import getOrganizationByUser from "@/features/organizations-feature/organization/queries/get-organization-by-user";
 
 const SavingsPage = async () => {
   const user = await getAuthOrRedirect();
   const activeOrganization = await getActiveOrganization();
 
-  if (!activeOrganization) redirect(organizationPage());
+  if (!activeOrganization) {
+    const organizations = await getOrganizationByUser();
+    if (!organizations.length) redirect(createOrganizationPage());
+    redirect(organizationPage());
+  }
 
   return (
     <div className="flex flex-col gap-y-8 flex-1">

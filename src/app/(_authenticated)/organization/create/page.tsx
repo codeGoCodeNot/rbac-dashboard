@@ -5,13 +5,15 @@ import { Suspense } from "react";
 
 const CreateOrganizationPage = () => {
   return (
-    <div className="flex flex-1 flex-col justify-center items-center">
+    <div className="flex flex-1 flex-col gap-y-8">
       <Heading
         title="Create Organization"
         description="Create a new organization to manage your savings and collaborate with others."
       />
       <Suspense fallback={<Spinner />}>
-        <OrganizationCreateForm />
+        <div className="flex flex-1 items-center justify-center">
+          <OrganizationCreateForm />
+        </div>
       </Suspense>
     </div>
   );
