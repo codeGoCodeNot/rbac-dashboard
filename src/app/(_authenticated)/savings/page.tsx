@@ -1,26 +1,24 @@
 import { Suspense } from "react";
 
-import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import Heading from "@/components/heading";
 import { Spinner } from "@/components/ui/spinner";
-import SavingsList from "@/features/savings/components/savings-list";
-import CreateSavingsForm from "@/features/savings/components/create-savings-form";
+import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import getActiveOrganization from "@/features/organizations-feature/organization/queries/get-active-organization";
-import { redirect } from "next/navigation";
-import { createOrganizationPage, organizationPage } from "@/path";
 import getOrganizationByUser from "@/features/organizations-feature/organization/queries/get-organization-by-user";
-
-export const dynamic = "force-dynamic";
+import CreateSavingsForm from "@/features/savings/components/create-savings-form";
+import SavingsList from "@/features/savings/components/savings-list";
+import {
+  createOrganizationPage,
+  onboardingPage,
+  organizationPage,
+} from "@/path";
+import { redirect } from "next/navigation";
 
 const SavingsPage = async () => {
   const user = await getAuthOrRedirect();
   const activeOrganization = await getActiveOrganization();
 
-  if (!activeOrganization) {
-    const organizations = await getOrganizationByUser();
-    if (!organizations.length) redirect(createOrganizationPage());
-    redirect(organizationPage());
-  }
+  if (!activeOrganization) redirect(onboardingPage());
 
   return (
     <div className="flex flex-col gap-y-8 flex-1">

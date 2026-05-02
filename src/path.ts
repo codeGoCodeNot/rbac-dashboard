@@ -29,3 +29,5 @@ export const organizationInvitationsPage = (orgId: string) =>
 export const acceptInvitePage = (inviteId: string) =>
   `/accept-invite/${inviteId}`;
 export const onboardingPage = () => "/onboarding";
+export const membershipsPage = (orgId: string) =>
+  `/organization/${orgId}/memberships`;

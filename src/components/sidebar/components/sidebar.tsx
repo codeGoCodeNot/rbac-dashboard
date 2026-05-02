@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
 import {
+  membershipsPage,
   organizationInvitationsPage,
   organizationPage,
   settingsPage,
@@ -109,12 +110,23 @@ export function AppSidebar() {
                       </Link>
                     </DropdownMenuItem>
                     <Separator />
+
                     <DropdownMenuItem>
                       <Link
                         href={organizationInvitationsPage(activeOrgId ?? "")}
                         className="flex items-center gap-2"
                       >
                         Invitations
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <Separator />
+                    <DropdownMenuItem>
+                      <Link
+                        href={membershipsPage(activeOrgId ?? "")}
+                        className="flex items-center gap-2"
+                      >
+                        Memberships
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>

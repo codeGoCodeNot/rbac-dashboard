@@ -1,10 +1,12 @@
 import Heading from "@/components/heading";
+import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 
 type MembershipPageProps = {
   params: Promise<{ organizationId: string }>;
 };
 
 const MembershipsPage = async ({ params }: MembershipPageProps) => {
+  await getAuthOrRedirect();
   const { organizationId } = await params;
 
   return (
