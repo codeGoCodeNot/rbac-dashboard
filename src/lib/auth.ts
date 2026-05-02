@@ -1,14 +1,16 @@
-import { betterAuth, email } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
 import prisma from "@/lib/prisma";
 import { hashPassword, verifyPassword } from "@/utils/password";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { resend } from "./resend";
-import { inngest } from "./inngest";
 import { admin, organization } from "better-auth/plugins";
+import { inngest } from "./inngest";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
+  advanced: {
+    useSecureCookies: process.env.NODE_ENV === "production",
+  },
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
