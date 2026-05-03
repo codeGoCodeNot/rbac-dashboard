@@ -5,7 +5,6 @@ import {
   ActionState,
   fromErrorToActionState,
 } from "@/components/utils/to-action-state";
-import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import { auth } from "@/lib/auth";
 import getAuth from "@/lib/get-auth";
 import { organizationPage, signInPage } from "@/path";
@@ -13,6 +12,7 @@ import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
+import { Prisma } from "../../../../../generated/prisma/client";
 
 const createOrganizationSchema = z.object({
   name: z.string().min(1, "Organization name is required").max(191),
@@ -43,6 +43,15 @@ const createOrganization = async (
       body: { organizationId: createOrg.id },
     });
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return fromErrorToActionState(
+        new Error("Organization name already exists"),
+        formData,
+      );
+    }
     return fromErrorToActionState(error, formData);
   }
   await setCookieByKey("toast", "Organization created successfully");

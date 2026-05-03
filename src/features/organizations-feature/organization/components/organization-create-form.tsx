@@ -49,6 +49,9 @@ const OrganizationCreateForm = () => {
                 {actionState.fieldErrors.name}
               </p>
             )}
+            {actionState.message && (
+              <p className="text-xs text-destructive">{actionState.message}</p>
+            )}
           </div>
           <Button type="submit" disabled={isPending}>
             {isPending ? "Creating..." : "Create organization"}

@@ -4,6 +4,8 @@ import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
 import InvitationCreateButton from "@/features/organizations-feature/invitation/components/invitation-create-button";
 import InvitationList from "@/features/organizations-feature/invitation/components/invitation-list";
 import getInvitations from "@/features/organizations-feature/invitation/queries/get-invitations";
+import getMembershipByUser from "@/features/organizations-feature/membership/queries/get-membership-by-user";
+import { forbidden } from "next/navigation";
 import { Suspense } from "react";
 
 type InvitationPageProps = {
@@ -14,6 +16,10 @@ const InvitationPage = async ({ params }: InvitationPageProps) => {
   await getAuthOrRedirect();
   const { organizationId } = await params;
 
+  const membership = await getMembershipByUser(organizationId);
+  if (!membership || !["owner", "admin"].includes(membership.role)) {
+    forbidden();
+  }
   const invitations = await getInvitations(organizationId);
 
   return (
