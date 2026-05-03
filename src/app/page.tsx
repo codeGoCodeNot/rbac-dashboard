@@ -1,15 +1,14 @@
 import DashboardCard from "@/components/dashboard-card";
 import Heading from "@/components/heading";
 import { Spinner } from "@/components/ui/spinner";
-import getAuthOrRedirect from "@/features/auth/queries/get-auth-or-redirect";
-import getActiveOrganization from "@/features/organizations-feature/organization/queries/get-active-organization";
+import getAuth from "@/lib/get-auth";
 import {
   contributionsPage,
-  onboardingPage,
   organizationPage,
   profilePage,
   savingsPage,
   settingsPage,
+  signInPage,
 } from "@/path";
 import {
   LucidePenLine,
@@ -22,10 +21,9 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const HomePage = async () => {
-  const user = await getAuthOrRedirect();
-  const activeOrganization = await getActiveOrganization();
+  const user = await getAuth();
 
-  if (!activeOrganization) redirect(onboardingPage());
+  if (!user) redirect(signInPage());
 
   return (
     <div className="flex flex-col gap-y-8 flex-1">
