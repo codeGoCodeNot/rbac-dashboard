@@ -74,7 +74,7 @@ export const auth = betterAuth({
           },
         });
       },
-      requireEmailVerificationOnInvitation: false,
+      requireEmailVerificationOnInvitation: true,
       invitationExpiresIn: 7 * 24 * 60 * 60, // 7 days
     }),
     admin(),

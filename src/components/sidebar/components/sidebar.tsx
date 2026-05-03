@@ -93,7 +93,10 @@ export function AppSidebar() {
               <SidebarMenuItem>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton>
+                    <SidebarMenuButton
+                      isActive={pathname.startsWith(organizationPage())}
+                      className="h-10 group-data-[collapsible=icon]:justify-center"
+                    >
                       <LucideBuilding2 className="text-purple-700" />
                       <span className="group-data-[collapsible=icon]:hidden">
                         Organization
@@ -104,7 +107,7 @@ export function AppSidebar() {
                     <DropdownMenuItem>
                       <Link
                         href={organizationPage()}
-                        className="flex items-center gap-2"
+                        className={`flex items-center gap-2 w-full ${pathname === organizationPage() ? "font-medium text-foreground" : "text-muted-foreground"}`}
                       >
                         Organization
                       </Link>
@@ -114,7 +117,7 @@ export function AppSidebar() {
                     <DropdownMenuItem>
                       <Link
                         href={organizationInvitationsPage(activeOrgId ?? "")}
-                        className="flex items-center gap-2"
+                        className={`flex items-center gap-2 w-full ${pathname.includes(organizationInvitationsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
                       >
                         Invitations
                       </Link>
@@ -124,7 +127,7 @@ export function AppSidebar() {
                     <DropdownMenuItem>
                       <Link
                         href={membershipsPage(activeOrgId ?? "")}
-                        className="flex items-center gap-2"
+                        className={`flex items-center gap-2 w-full ${pathname.includes(membershipsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
                       >
                         Memberships
                       </Link>
