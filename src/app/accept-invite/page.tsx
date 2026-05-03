@@ -1,3 +1,4 @@
+import getActiveOrganization from "@/features/organizations-feature/organization/queries/get-active-organization";
 import { auth } from "@/lib/auth";
 import getSession from "@/lib/get-session";
 import { homePage, signInPage } from "@/path";
@@ -25,11 +26,16 @@ const AcceptInvitePage = async ({
         invitationId: token,
       },
     });
+
+    const org = await getActiveOrganization();
+    if (org) {
+      await auth.api.setActiveOrganization({
+        headers: await headers(),
+        body: { organizationId: org.id },
+      });
+    }
   } catch (error) {
-    console.log("invite error", error);
-    redirect(
-      `${homePage()}?error=Failed to accept invitation. Please try again.`,
-    );
+    redirect(`${homePage()}?error=Failed to accept invitation.`);
   }
 
   redirect(homePage());
