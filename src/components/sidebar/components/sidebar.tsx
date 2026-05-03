@@ -13,10 +13,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
+import { organization } from "@/lib/auth-client";
 import {
   membershipsPage,
   organizationInvitationsPage,
@@ -28,7 +28,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { navItems } from "../constants";
-import { organization } from "@/lib/auth-client";
 
 export function AppSidebar() {
   const { open, setOpen, isMobile } = useSidebar();
@@ -53,6 +52,7 @@ export function AppSidebar() {
   }, [pathname]);
 
   if (!isAuth) return null;
+  if (!activeOrgId) return null;
   return (
     <>
       {open && !isMobile && (
@@ -88,55 +88,54 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroup>
           <div className="h-px bg-border mx-2 my-1" />
-          {activeOrgId && (
-            <SidebarGroup>
-              <SidebarMenuItem>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton
-                      isActive={pathname.startsWith(organizationPage())}
-                      className="h-10 group-data-[collapsible=icon]:justify-center"
+
+          <SidebarGroup>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    isActive={pathname.startsWith(organizationPage())}
+                    className="h-10 group-data-[collapsible=icon]:justify-center"
+                  >
+                    <LucideBuilding2 className="text-purple-700" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Organization
+                    </span>
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>
+                    <Link
+                      href={organizationPage()}
+                      className={`flex items-center gap-2 w-full ${pathname === organizationPage() ? "font-medium text-foreground" : "text-muted-foreground"}`}
                     >
-                      <LucideBuilding2 className="text-purple-700" />
-                      <span className="group-data-[collapsible=icon]:hidden">
-                        Organization
-                      </span>
-                    </SidebarMenuButton>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link
-                        href={organizationPage()}
-                        className={`flex items-center gap-2 w-full ${pathname === organizationPage() ? "font-medium text-foreground" : "text-muted-foreground"}`}
-                      >
-                        Organization
-                      </Link>
-                    </DropdownMenuItem>
-                    <Separator />
+                      Organization
+                    </Link>
+                  </DropdownMenuItem>
+                  <Separator />
 
-                    <DropdownMenuItem>
-                      <Link
-                        href={organizationInvitationsPage(activeOrgId ?? "")}
-                        className={`flex items-center gap-2 w-full ${pathname.includes(organizationInvitationsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
-                      >
-                        Invitations
-                      </Link>
-                    </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link
+                      href={organizationInvitationsPage(activeOrgId ?? "")}
+                      className={`flex items-center gap-2 w-full ${pathname.includes(organizationInvitationsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
+                    >
+                      Invitations
+                    </Link>
+                  </DropdownMenuItem>
 
-                    <Separator />
-                    <DropdownMenuItem>
-                      <Link
-                        href={membershipsPage(activeOrgId ?? "")}
-                        className={`flex items-center gap-2 w-full ${pathname.includes(membershipsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
-                      >
-                        Memberships
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SidebarMenuItem>
-            </SidebarGroup>
-          )}
+                  <Separator />
+                  <DropdownMenuItem>
+                    <Link
+                      href={membershipsPage(activeOrgId ?? "")}
+                      className={`flex items-center gap-2 w-full ${pathname.includes(membershipsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
+                    >
+                      Memberships
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarGroup>
 
           <SidebarGroup className="mt-auto">
             <SidebarMenu>
