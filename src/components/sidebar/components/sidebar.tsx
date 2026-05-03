@@ -18,6 +18,7 @@ import {
 import { getAuthUser } from "@/features/auth/actions/get-auth-user";
 import { organization } from "@/lib/auth-client";
 import {
+  homePage,
   membershipsPage,
   organizationInvitationsPage,
   organizationPage,
@@ -52,7 +53,7 @@ export function AppSidebar() {
   }, [pathname]);
 
   if (!isAuth) return null;
-  if (!activeOrgId) return null;
+
   return (
     <>
       {open && !isMobile && (
@@ -66,25 +67,29 @@ export function AppSidebar() {
           <SidebarGroup className="mt-15" />
           <SidebarGroup>
             <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  {item.separator && (
-                    <div className="h-px bg-border mx-2 my-1" />
-                  )}
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.href}
-                    className="h-10 group-data-[collapsible=icon]:justify-center"
-                  >
-                    <Link href={item.href}>
-                      {item.icon}
-                      <span className="group-data-[collapsible=icon]:hidden">
-                        {item.title}
-                      </span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navItems
+                .filter((item) =>
+                  !activeOrgId ? item.href === homePage() : true,
+                )
+                .map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    {item.separator && (
+                      <div className="h-px bg-border mx-2 my-1" />
+                    )}
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.href}
+                      className="h-10 group-data-[collapsible=icon]:justify-center"
+                    >
+                      <Link href={item.href}>
+                        {item.icon}
+                        <span className="group-data-[collapsible=icon]:hidden">
+                          {item.title}
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroup>
           <div className="h-px bg-border mx-2 my-1" />
@@ -112,26 +117,29 @@ export function AppSidebar() {
                       Organization
                     </Link>
                   </DropdownMenuItem>
-                  <Separator />
 
-                  <DropdownMenuItem>
-                    <Link
-                      href={organizationInvitationsPage(activeOrgId ?? "")}
-                      className={`flex items-center gap-2 w-full ${pathname.includes(organizationInvitationsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
-                    >
-                      Invitations
-                    </Link>
-                  </DropdownMenuItem>
-
-                  <Separator />
-                  <DropdownMenuItem>
-                    <Link
-                      href={membershipsPage(activeOrgId ?? "")}
-                      className={`flex items-center gap-2 w-full ${pathname.includes(membershipsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
-                    >
-                      Memberships
-                    </Link>
-                  </DropdownMenuItem>
+                  {activeOrgId && (
+                    <>
+                      <Separator />
+                      <DropdownMenuItem>
+                        <Link
+                          href={organizationInvitationsPage(activeOrgId ?? "")}
+                          className={`flex items-center gap-2 w-full ${pathname.includes(organizationInvitationsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
+                        >
+                          Invitations
+                        </Link>
+                      </DropdownMenuItem>
+                      <Separator />
+                      <DropdownMenuItem>
+                        <Link
+                          href={membershipsPage(activeOrgId ?? "")}
+                          className={`flex items-center gap-2 w-full ${pathname.includes(membershipsPage(activeOrgId ?? "")) ? "font-medium text-foreground" : "text-muted-foreground"}`}
+                        >
+                          Memberships
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
